@@ -1,0 +1,27 @@
+<VirtualHost *:80>
+	ServerAdmin pablocuadrado@gmail.com
+	ServerAlias abresf.local
+
+	DocumentRoot /home/pablo/www/abresf/web
+	DirectoryIndex app_dev.php
+
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+
+	<Directory /home/pablo/www/abresf/web>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ErrorLog ${APACHE_LOG_DIR}/abresf-error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog ${APACHE_LOG_DIR}/abresf-access.log combined
+</VirtualHost>
