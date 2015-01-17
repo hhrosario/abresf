@@ -52,6 +52,9 @@ Luego, se crea el schema (tablas, keys, indexes, etc) con:
 
     app/console doctrine:schema:update --force
 
+> Nota: si da errores de permisos en el directorio **app/cache** revisar cómo se especifican los permisos en la documentación de Symfony, o en todo caso, darle permisos full a ese directorio con: **sudo chmod -R 777 app/cache**. Lo mismo para el directorio **app/logs**.
+
+
 ### 4. Crear un dominio local y virtual host asociado
 
 Esto no es estrictamente necesario pero yo lo recomiendo mucho
