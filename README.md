@@ -1,6 +1,8 @@
 Plan Abre
 =========
 
+# Atención, eso es SOLO para el entorno de desarrollo, no para el servidor de VisPress.
+
 ## Instalación
 
 ### 1. Clonar este repo
