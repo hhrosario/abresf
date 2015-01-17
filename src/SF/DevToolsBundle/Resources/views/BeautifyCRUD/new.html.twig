@@ -1,0 +1,18 @@
+{% extends '[[[bundleName]]]:Admin:base.html.twig' %}
+
+{% block breadcrumbs %}
+  <li><a href="#">[[[appName]]]</a> <span class="divider">/</span></li>
+  <li><a href="{{ path('[[[entityName]]]') }}">[[[entityNameCaps]]]</a> <span class="divider">/</span></li>
+  <li class="active">Editar</li>
+{% endblock %}
+
+{% block contenido %}
+<form action="{{ path('[[[entityName]]]_create') }}" method="post" {{ form_enctype(form) }} class="form-stacked">
+    <fieldset>
+      {{ form_widget(form) }}
+    </fieldset>
+    <div class="actions">
+      <input type="submit" class="btn primary" value="Guardar" />
+    </div>
+</form>
+{% endblock %}

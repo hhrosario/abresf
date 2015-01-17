@@ -1,0 +1,258 @@
+{% extends 'SFAbreBundle:Admin:base.html.twig' %}
+
+{% block breadcrumbs %}
+  <li><a href="#">Plan Abre</a> <span class="divider">/</span></li>
+  <li><a href="{{ path('proyecto') }}">Proyecto</a> <span class="divider">/</span></li>
+  <li class="active">Editar</li>
+{% endblock %}
+
+{% block contenido %}
+
+<script src="/bundles/sfabre/js/jquery-te-1.4.0.min.js"></script>
+<link rel="stylesheet" href="/bundles/sfabre/js/jquery-te-1.4.0.css" />
+
+<form action="{{ path('proyecto_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }} class="form-stacked">
+    
+    <h1>Proyecto {{ edit_form.vars.value.nombre }}</h1>
+
+    <h4>Datos de Gabinete Social <small class="muted-text">(Sólo lectura)</small></h4>
+
+    {{ form_start(edit_form) }}
+        {{ form_errors(edit_form) }}
+
+    <form class="form-horizontal" role="form">
+
+      <div class="well">
+
+      <div class="form-group">
+        {{ form_label(edit_form.id, 'ID', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.id, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.nombre, 'Nombre', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.nombre, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.orden, 'Orden', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.orden, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.observacion, 'Observación', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.observacion, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.fecha, 'Fecha', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.fecha, {'attr': {'class': 'form-control', 'readonly': 'readonly' }}) }}
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.linea_accion, 'Línea de Acción', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.linea_accion, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.intervencion, 'Intervención', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.intervencion, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.eje_trabajo, 'Eje de Trabajo', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.eje_trabajo, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.localidad, 'Localidad', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.localidad, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.dato_geografico, 'Dato Geográfico', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.dato_geografico, {'attr': {'class': 'form-control', 'readonly': 'readonly'}}) }}
+        </div>
+      </div>
+
+
+      <div class="clearfix"></div>
+
+    </div>
+
+      <h4>Historial de Estados</h4>
+
+      <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Orden</th>
+                    <th>Fecha</th>
+                    <th>Desde</th>
+                    <th>Hasta</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entity in detalles %}
+                <tr>
+                    <td rowspan="2">{{ entity.id }}</td>
+                    <td>{{ entity.nombre }}</td>
+                    <td>{{ entity.orden }}</td>
+                    <td>{% if entity.fecha %}{{ entity.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if entity.plazoDesde %}{{ entity.plazoDesde|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>{% if entity.plazoHasta %}{{ entity.plazoHasta|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    <td>$ {{ entity.monto }}</td>
+                </tr>
+                <tr>
+                    <td colspan="6">{{ entity.estado.nombre }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+      <h4>Datos Web Plan Abre <small class="muted-text">(Públicos)</small></h4>
+
+      <div class="well">
+
+      <div class="form-group">
+        {{ form_label(edit_form.titulo_publico, 'Título', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.titulo_publico, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.imagen, 'Imagen', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.imagen.fileref, { 'attr' : { 'title': '<i class="icon-upload"></i> Seleccionar archivo' }}) }}
+          <div class="clearfix"></div>
+          <div class="hidden" id="imagen-input"> {{ form_widget(edit_form.imagen.path) }} </div>
+          <div class="clearfix"></div>
+          {% if imagenUrl %}
+          <img id="imagen-proyecto" src="/{{ imagenUrl }}" width="250">
+          {% else %}
+          <img id="imagen-proyecto" src="/bundles/sfabre/images/nophoto.png" width="250" height="250" />
+          {% endif %}
+          <button type="button" id="borrar-imagen" class="btn btn-danger btn-xs">Quitar imagen</button>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.bajada_publica, 'Bajada', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.bajada_publica, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.cuerpo_publico, 'Cuerpo', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.cuerpo_publico, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.monto_publico, 'Monto', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.monto_publico, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        {{ form_label(edit_form.enlace, 'Enlace', { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        <div class="col-sm-10">
+          {{ form_widget(edit_form.enlace, {'attr': {'class': 'form-control'}}) }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              {{ form_widget(edit_form.publicar) }} Publicar
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              {{ form_widget(edit_form.mostrar_monto) }} Mostrar monto de inversión
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+            <label>
+              {{ form_widget(edit_form.leido) }} Marcar como leído
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+      </div>
+
+    {{ form_row(edit_form._token) }}
+
+</form>
+
+<script type="text/javascript">
+  $(document).on("ready", function() {
+    $("#borrar-imagen").on("click", function(e) {
+      $("#imagen-input input").val("");
+      $("#imagen-proyecto").attr("src", "/bundles/sfabre/images/nophoto.png");
+    });
+    $("#sf_abrebundle_proyecto_cuerpo_publico").jqte();
+  })
+</script>
+
+{% endblock %}
+
+{% block js_pie %}
+{% endblock %}

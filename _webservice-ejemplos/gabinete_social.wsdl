@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+      name="mds.santafe.gov.ar.gabinete_social"
+      targetNamespace="urn:mds.santafe.gov.ar.gabinete_social"
+      xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+      xmlns:tns="urn:mds.santafe.gov.ar.gabinete_social"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+      xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+      xmlns="http://schemas.xmlsoap.org/wsdl/"
+      xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+      xmlns:s="http://www.w3.org/2001/XMLSchema">
+
+	<types>
+		<xsd:schema targetNamespace="urn:mds.santafe.gov.ar.gabinete_social">
+		<xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+		<xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+		
+		<!-- Inicio TypeGetEjesTrabajo -->
+		<xsd:complexType name="ElementReturnGetEjesTrabajo">
+			<xsd:all>
+				<xsd:element name="etr_id" type="xsd:integer"/>
+				<xsd:element name="etr_nombre" type="xsd:string"/>
+				<xsd:element name="etr_nro_orden" type="xsd:integer"/>
+			</xsd:all>
+		</xsd:complexType>
+		
+		<xsd:complexType name="ReturnGetEjesTrabajo">
+			<xsd:sequence>
+				<xsd:element name="item" type="tns:ElementReturnGetEjesTrabajo" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<!-- Fin TypeGetEjesTrabajo -->
+		
+		<!-- Inicio TypeGetLineasAccion -->
+		<xsd:complexType name="ElementReturnGetLineasAccion">
+			<xsd:all>
+				<xsd:element name="lac_id" type="xsd:integer" />
+				<xsd:element name="lac_nombre" type="xsd:string" />
+				<xsd:element name="lac_nro_orden" type="xsd:integer" />
+			</xsd:all>
+		</xsd:complexType>
+		
+		<xsd:complexType name="ReturnGetLineasAccion">
+			<xsd:sequence>
+				<xsd:element name="item" type="tns:ElementReturnGetLineasAccion" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<!-- Fin TypeGetLineasAccion -->
+		
+		<!-- Inicio TypeGetIntervenciones -->
+		<xsd:complexType name="ElementReturnGetIntervenciones">
+			<xsd:all>
+				<xsd:element name="int_id" type="xsd:integer" />
+				<xsd:element name="int_nombre" type="xsd:string" />
+				<xsd:element name="int_nro_orden" type="xsd:integer" />
+			</xsd:all>
+		</xsd:complexType>
+		
+		<xsd:complexType name="ReturnGetIntervenciones">
+			<xsd:sequence>
+				<xsd:element name="item" type="tns:ElementReturnGetIntervenciones" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<!-- Fin TypeGetIntervenciones -->
+		
+		<!-- Inicio TypeGetLocalidades -->
+		<xsd:complexType name="ElementReturnGetLocalidades">
+			<xsd:all>
+				<xsd:element name="loc_id" type="xsd:integer"/>
+				<xsd:element name="loc_nombre" type="xsd:string"/>
+				<xsd:element name="loc_comu" type="xsd:integer"/>
+			</xsd:all>
+		</xsd:complexType>
+		
+		<xsd:complexType name="ReturnGetLocalidades">
+			<xsd:sequence>
+				<xsd:element name="item" type="tns:ElementReturnGetLocalidades" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<!-- Fin TypeGetLocalidades -->
+		
+		<!-- Inicio TypeGetBarrios -->
+		<xsd:complexType name="ElementReturnGetBarrios">
+			<xsd:all>
+				<xsd:element name="bar_id" type="xsd:integer" />
+				<xsd:element name="bar_nombre" type="xsd:string" />
+				<xsd:element name="bar_nro" type="xsd:integer" />
+			</xsd:all>
+		</xsd:complexType>
+		
+		<xsd:complexType name="ReturnGetBarrios">
+			<xsd:sequence>
+				<xsd:element name="item" type="tns:ElementReturnGetBarrios" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<!-- Fin TypeGetBarrios -->
+		<!-- Inicio TypeGetDistritos -->
+		<xsd:complexType name="ElementReturnGetDistritos">
+			<xsd:all>
+				<xsd:element name="dis_id" type="xsd:integer" />
+				<xsd:element name="dis_nombre" type="xsd:string" />
+				<xsd:element name="dis_nro" type="xsd:integer" />
+			</xsd:all>
+		</xsd:complexType>
+		
+		<xsd:complexType name="ReturnGetDistritos">
+			<xsd:sequence>
+				<xsd:element name="item" type="tns:ElementReturnGetDistritos" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<!-- Fin TypeGetDistritos -->
+		<!-- Inicio TypeGetProyectos -->
+		<xsd:complexType name="ParamGetProyectos">
+			<xsd:choice>
+				<xsd:element name="etr_id" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+				<xsd:element name="lac_id" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+				<xsd:element name="int_id" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+				<xsd:element name="dis_id" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+				<xsd:element name="bar_id" type="xsd:integer" minOccurs="0" maxOccurs="1"/>
+			</xsd:choice>
+		</xsd:complexType>
+		
+		<xsd:complexType name="DateTime">
+			<xsd:all>
+				<xsd:element name="date" type="xsd:string"/>
+				<xsd:element name="timezone_type" type="xsd:integer"/>
+				<xsd:element name="timezone" type="xsd:string"/>
+			</xsd:all>
+		</xsd:complexType>
+		<xsd:complexType name="ReturnGetEstados">
+			<xsd:all>
+				<xsd:element name="pes_id" type="xsd:integer"/>
+				<xsd:element name="pes_nombre" type="xsd:string"/>
+			</xsd:all>
+		</xsd:complexType>
+		<xsd:complexType name="ElementReturnGetDetalles">
+			<xsd:all>
+				<xsd:element name="pde_id" type="xsd:integer"/>
+				<xsd:element name="pde_nombre" type="xsd:string"/>
+				<xsd:element name="pde_nro_orden" type="xsd:string"/>
+				<xsd:element name="pde_fecha" type="tns:DateTime"/>
+				<xsd:element name="pde_monto_inversion" type="xsd:decimal"/>
+				<xsd:element name="pde_plazo_desde" type="tns:DateTime"/>
+				<xsd:element name="pde_plazo_hasta" type="tns:DateTime"/>
+				<xsd:element name="estado" type="tns:ReturnGetEstados"/>
+			</xsd:all>
+		</xsd:complexType>
+		<xsd:complexType name="ReturnGetDetalles">
+			<xsd:sequence>
+				<xsd:element name="item" type="tns:ElementReturnGetDetalles" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<xsd:complexType name="ReturnGetDatoGeografico">
+			<xsd:all>
+				<xsd:element name="pge_descripcion" type="xsd:string"/>
+				<xsd:element name="pge_geo_id" type="xsd:integer"/>
+				<xsd:element name="pge_geo_char" type="xsd:string"/>
+			</xsd:all>
+		</xsd:complexType>
+		<xsd:complexType name="ElementReturnGetProyectos">
+			<xsd:all>
+				<xsd:element name="pro_id" type="xsd:integer"/>
+				<xsd:element name="pro_nombre" type="xsd:string"/>
+				<xsd:element name="pro_nro_orden" type="xsd:integer"/>
+				<xsd:element name="pro_observacion" type="xsd:string"/>
+				<xsd:element name="pro_fecha" type="tns:DateTime"/>
+				<xsd:element name="ejes_trabajo" type="tns:ElementReturnGetEjesTrabajo"/>
+				<xsd:element name="linea_accion" type="tns:ElementReturnGetLineasAccion"/>
+				<xsd:element name="intervencion" type="tns:ElementReturnGetIntervenciones" minOccurs="0" />
+				<xsd:element name="dato_geografico" type="tns:ReturnGetDatoGeografico" minOccurs="0" />
+				<xsd:element name="detalles" type="tns:ReturnGetDetalles"/>
+			</xsd:all>
+		</xsd:complexType>
+		
+		<xsd:complexType name="ReturnGetProyectos">
+			<xsd:sequence>
+				<xsd:element name="item" type="tns:ElementReturnGetProyectos" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<!-- Fin TypeGetProyectos -->
+		</xsd:schema>
+	</types>
+
+	<!-- Inicio MessageGetEjesTrabajo -->
+	<message name="getEjesTrabajoRequest">
+    </message>
+    <message name="getEjesTrabajoResponse">
+		<part name="return" type="tns:ReturnGetEjesTrabajo" />
+    </message>
+	<!-- Fin MessageGetEjesTrabajo -->
+	<!-- Inicio MessageGetLineasAccion -->
+	<message name="getLineasAccionRequest">
+		<part name="etr_id" type="xsd:integer"/>
+    </message>
+    <message name="getLineasAccionResponse">
+		<part name="return" type="tns:ReturnGetLineasAccion" />
+    </message>
+	<!-- Fin MessageGetLineasAccion -->
+	<!-- Inicio MessageGetIntervenciones -->
+	<message name="getIntervencionesRequest">
+		<part name="lac_id" type="xsd:integer"/>
+    </message>
+    <message name="getIntervencionesResponse">
+		<part name="return" type="tns:ReturnGetIntervenciones" />
+    </message>
+	<!-- Fin MessageGetIntervenciones -->
+	<!-- Inicio MessageGetLocalidades -->
+	<message name="getLocalidadesRequest">
+    </message>
+    <message name="getLocalidadesResponse">
+		<part name="return" type="tns:ReturnGetLocalidades" />
+    </message>
+	<!-- Fin MessageGetLocalidades -->
+	<!-- Inicio MessageGetBarrios -->
+	<message name="getBarriosRequest">
+		<part name="loc_id" type="xsd:integer"/>
+    </message>
+    <message name="getBarriosResponse">
+		<part name="return" type="tns:ReturnGetBarrios" />
+    </message>
+	<!-- Fin MessageGetBarrios -->
+	<!-- Inicio MessageGetDistritos -->
+	<message name="getDistritosRequest">
+		<part name="loc_id" type="xsd:integer"/>
+    </message>
+    <message name="getDistritosResponse">
+		<part name="return" type="tns:ReturnGetDistritos" />
+    </message>
+	<!-- Fin MessageGetDistritos -->
+	<!-- Inicio MessageGetProyectos -->
+	<message name="getProyectosRequest">
+		<part name="loc_id" type="xsd:integer"/>
+		<part name="params" type="tns:ParamGetProyectos"/>
+    </message>
+    <message name="getProyectosResponse">
+		<part name="return" type="tns:ReturnGetProyectos" />
+    </message>
+	<!-- Fin MessageGetDistritos -->
+	
+
+    <portType name="GabineteSocialPortType">
+	<!-- Inicio OperationGetEjesTrabajo -->
+	<operation name="getEjesTrabajo">
+		<documentation>Obtener Listado de los Ejes de Trabajo</documentation>
+	    <input message="tns:getEjesTrabajoRequest" />
+	    <output message="tns:getEjesTrabajoResponse" />
+	</operation>
+	<!-- Fin OperationGetEjesTrabajo -->
+	<!-- Inicio OperationGetLineasAccion -->
+	<operation name="getLineasAccion">
+		<documentation>Obtener Listado de las Lineas de Accion a partir del Id. de Ejes de Trabajo</documentation>
+	    <input message="tns:getLineasAccionRequest" />
+	    <output message="tns:getLineasAccionResponse" />
+	</operation>
+	<!-- Fin OperationGetLineasAccion -->
+	<!-- Inicio OperationGetIntervenciones -->
+	<operation name="getIntervenciones">
+		<documentation>Obtener Listado de Intervenciones a partir del Id. de Lineas de Accion</documentation>
+	    <input message="tns:getIntervencionesRequest" />
+	    <output message="tns:getIntervencionesResponse" />
+	</operation>
+	<!-- Fin OperationGetIntervenciones -->
+	<!-- Inicio OperationGetLocalidades -->
+	<operation name="getLocalidades">
+		<documentation>Obtener Listado de Localidades</documentation>
+	    <input message="tns:getLocalidadesRequest" />
+	    <output message="tns:getLocalidadesResponse" />
+	</operation>
+	<!-- Fin OperationGetLocalidades -->
+	<!-- Inicio OperationGetBarrios -->
+	<operation name="getBarrios">
+		<documentation>Obtener Listado de Barrios a partir de una localidad</documentation>
+	    <input message="tns:getBarriosRequest" />
+	    <output message="tns:getBarriosResponse" />
+	</operation>
+	<!-- Fin OperationGetBarrios -->
+	<!-- Inicio OperationGetDistritos -->
+	<operation name="getDistritos">
+		<documentation>Obtener Listado de Distritos a partir de una localidad</documentation>
+	    <input message="tns:getDistritosRequest" />
+	    <output message="tns:getDistritosResponse" />
+	</operation>
+	<!-- Fin OperationGetDistritos -->
+	<!-- Inicio OperationGetProyectos -->
+	<operation name="getProyectos">
+		<documentation>Obtener Listado de Proyectos a partir de una localidad</documentation>
+	    <input message="tns:getProyectosRequest" />
+	    <output message="tns:getProyectosResponse" />
+	</operation>
+	<!-- Fin OperationGetProyectos -->
+    </portType>
+
+	
+    <binding name="GabineteSocialBinding" type="tns:GabineteSocialPortType">
+		<soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<!-- Inicio BindingGetEjesTrabajo -->
+		<operation name="getEjesTrabajo">
+			<soap:operation soapAction="urn:mds.santafe.gov.ar.gabinete_social#getEjesTrabajo" style="rpc"/>
+			<input>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</output>
+		</operation>
+		<!-- Fin BindingGetEjesTrabajo -->
+		<!-- Inicio BindingGetLineasAccion -->
+		<operation name="getLineasAccion">
+			<soap:operation soapAction="urn:mds.santafe.gov.ar.gabinete_social#getLineasAccion" style="rpc"/>
+			<input>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</output>
+		</operation>
+		<!-- Fin BindingGetLineasAccion -->
+		<!-- Inicio BindingGetIntervenciones -->
+		<operation name="getIntervenciones">
+			<soap:operation soapAction="urn:mds.santafe.gov.ar.gabinete_social#getIntervenciones" style="rpc"/>
+			<input>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</output>
+		</operation>
+		<!-- Fin BindingGetIntervenciones -->
+		<!-- Inicio BindingGetLocalidades -->
+		<operation name="getLocalidades">
+			<soap:operation soapAction="urn:mds.santafe.gov.ar.gabinete_social#getLocalidades" style="rpc"/>
+			<input>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</output>
+		</operation>
+		<!-- Fin BindingGetLocalidades -->
+		<!-- Inicio BindingGetBarrios -->
+		<operation name="getBarrios">
+			<soap:operation soapAction="urn:mds.santafe.gov.ar.gabinete_social#getBarrios" style="rpc"/>
+			<input>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</output>
+		</operation>
+		<!-- Fin BindingGetBarrios -->
+		<!-- Inicio BindingGetDistritos -->
+		<operation name="getDistritos">
+			<soap:operation soapAction="urn:mds.santafe.gov.ar.gabinete_social#getDistritos" style="rpc"/>
+			<input>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</output>
+		</operation>
+		<!-- Fin BindingGetDistritos -->
+		<!-- Inicio BindingGetProyectos -->
+		<operation name="getProyectos">
+			<soap:operation soapAction="urn:mds.santafe.gov.ar.gabinete_social#getProyectos" style="rpc"/>
+			<input>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</input>
+			<output>
+				<soap:body use="literal" namespace="urn:mds.santafe.gov.ar.gabinete_social" />
+			</output>
+		</operation>
+		<!-- Fin BindingGetDistritos -->
+		
+    </binding>
+
+    <service name="GabineteSocial">
+	<port name="GabineteSocialPort" binding="tns:GabineteSocialBinding">
+	    <soap:address location="http://10.1.6.242/~gustavo/gabinete_social/index.php?controler=Server" />
+	</port>
+    </service>
+
+</definitions>

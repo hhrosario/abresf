@@ -1,0 +1,90 @@
+{% extends 'SFAbreBundle:Admin:base.html.twig' %}
+
+{% block breadcrumbs %}
+  <li><a href="#">Plan Abre</a> <span class="divider">/</span></li>
+  <li class="active">Intervencion</li>
+{% endblock %}
+
+{% block contenido %}
+
+  <h1>Intervenciones</h1>
+
+  <div class="accionesListado">
+    {#<a href="{{ path('intervencion_importar') }}" class="btn btn-default">Importar</a>#}
+    {% if success is defined %}
+    <div class="alert-message success fade in pull-right" data-alert="alert">
+      <a class="close" href="#">×</a>
+      <p>Mensaje de éxito</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Linea de Acción</th>
+                <th>Orden</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.nombre }}</td>
+                <td>{{ entity.lineaaccion.nombre }}</td>
+                <td>{{ entity.orden }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  
+    {% if hasPagination is defined %}
+  <div class="pagination">
+    <ul>
+      <li class="prev disabled"><a href="#">&larr; Anterior</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li class="next"><a href="#">Siguiente &rarr;</a></li>
+    </ul>
+  </div>
+  {% endif %}
+  
+  <script type="text/javascript">
+    function deleteEntity(path) {
+      $("#modal-from-dom .modal-header h3").html('Eliminar intervencion');
+      $("#modal-from-dom .modal-body p").html('Seguro desea eliminar el intervencion?');
+      $("#modal-from-dom #modal-button-primary").addClass('danger');
+      $("#modal-from-dom #modal-button-primary").removeClass('primary');
+      $("#modal-from-dom #modal-button-primary").html('Eliminar');
+      $("#modal-from-dom #modal-button-primary").click(function() {
+        $("#modal-from-dom").modal('hide');
+        $.ajax({
+          type: 'POST',
+          url: path,
+          data: {},
+          success: function(response) {
+            console.log(response);
+            if (response.success) {
+              location.href = "{{ path('intervencion') }}";
+            } else {
+              alert(response.error);
+            }
+          },
+          dataType: 'json'
+        });
+      });
+      $("#modal-from-dom #modal-button-secondary").html('Cancelar');
+      $("#modal-from-dom #modal-button-secondary").click(function() {
+        $("#modal-from-dom").modal('hide');
+        return true;
+      });
+      $("#modal-from-dom").modal('show');
+    }
+  </script>
+{% endblock %}
+

@@ -1,0 +1,31 @@
+h1 {
+	font-size: 20pt;
+}
+
+.accionesListado {
+	margin: 20px 0;
+}
+
+tr.no-leido td {
+	background: #dfa;
+}
+
+#form_filtros_admin {
+	padding: 20px;
+	background: #ddd;
+	margin: 20px 0;
+}
+
+#form_filtros_admin select {
+	display: block;
+	width: 100%;
+}
+
+#form_filtros_admin label {
+	display: block;
+	width: 100%;
+}
+
+#form_filtros_admin button {
+	margin-top: 10px;
+}

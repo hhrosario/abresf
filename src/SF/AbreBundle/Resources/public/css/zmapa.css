@@ -1,0 +1,506 @@
+.loader {
+  background: rgba(255,255,255,.8);
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  position: fixed;
+  z-index: 9999;
+}
+
+.loader i {
+  margin-bottom: 10px;
+}
+
+.loader .spinner-wrapper {
+  position: absolute;
+  width: 400px;
+  height: 300px;
+  left: 50%;
+  margin-left: -200px;
+  margin-top: 20px;
+  display: block;
+  opacity: .6;
+  text-align: center;
+}
+
+.nota {
+  max-width: 600px;
+  margin: auto;
+}
+
+.nota img {
+  width: 100%;
+  margin: 15px 0;
+  padding: 5px;
+  background: #eee;
+  border: 1px solid #ccc;
+}
+
+.nota h1 {
+  font-weight: 400;
+}
+
+.main-padder {
+  padding: 30px;
+  background: white;
+}
+
+.container.with-navbar {
+  padding-top: 45px;
+}
+
+
+.mapa-y-filtros {
+  position: relative;
+}
+
+.mapa-y-filtros h5.titulo-color {
+  margin-top: 0px;
+  margin-bottom: 9px;
+}
+
+.titulo-color {
+  color: #09A1ED;
+  font-weight: 400;
+}
+
+#map { 
+  height: 500px;
+  width: 100%;
+}
+
+#map-wrapper {
+  height: 500px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;  
+}
+
+#overlay { 
+  height: 100%;
+  width: 75%;
+  color: #333;
+  position: absolute;
+  top: 0px;
+  right: -200px;
+  background: rgba(255,255,255,.9);
+  display: none;
+  z-index: 1000;
+  box-shadow: 0px 0px 15px #aaa;
+  transition: right 0.5s ease;
+  font-family: 'Asap';
+}
+
+#overlay h2 {
+  font-family: 'Asap';
+  font-size: 22px;
+  margin-top: 0;
+  font-weight: bold;
+}
+
+#overlay .container-imagen {
+  height: 200px;
+  overflow: hidden;
+}
+
+#overlay img {
+  max-width: 100%;
+  width: 100%;
+}
+
+#overlay td {
+  padding: 2px;
+  font-size: 14px;
+}
+
+#overlay label {
+  font-weight: bold;
+  padding-right: 5px;
+  display: inline-block;
+  line-height: 1;
+  font-size: 12p;x
+}
+
+#overlay .eje {
+  font-family: 'Asap';
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+#overlay.visible {
+  right: 0;
+}
+
+#overlay p {
+  font-weight: 300;
+}
+
+#overlay h4 {
+  font-weight: 400;
+}
+
+#overlay .alert {
+  margin-top: 10px;
+}
+
+#overlay #cerrar-sidebar { 
+  height: 24px;
+  width: 24px;
+  opacity: .5;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+#overlay-padder {
+  padding: 20px;
+}
+
+svg {
+  font: 10px sans-serif;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #ccc;
+  shape-rendering: crispEdges;
+}
+
+#splatter { display: none }
+
+.area-mejoramiento-barrial {
+  transition: all .2s;
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  visibility: visible;
+  stroke: #FF7777;
+  stroke-width: 2;
+  cursor: pointer;
+  fill: #EE4444;
+  opacity: 0.5;
+}
+
+.area-mi-tierra-mi-casa {
+  transition: all .2s;
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  visibility: visible;
+  stroke: #0077ee;
+  stroke-width: 2;
+  cursor: pointer;
+  fill: #C2DEFC;
+  opacity: 0.5;
+}
+
+.area-zonas-de-interes {
+  transition: all .2s;
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  visibility: visible;
+  /*stroke: #77ee00;*/
+  stroke-width: 0;
+  cursor: pointer;
+  /*fill: #DEFCC2;*/
+  fill: url(#abrebg);
+  opacity: .8;
+}
+
+
+.area-comisaria:hover {
+  opacity: 0.8;
+  fill: #5D97F5;
+}
+
+.area-comisaria.selected { visibility: visible; }
+
+.area-distrito {
+  transition: all .2s;
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  visibility: hidden;
+  stroke: #5e4108;
+  stroke-width: 2;
+  cursor: pointer;
+  fill: #f9be27;
+  opacity: 0.3;
+}
+
+.area-distrito:hover {
+  opacity: 0.6;
+  fill: #f9be27;
+}
+
+.area-distrito.selected { visibility: visible; }
+
+.circle {
+  visibility: hidden;
+  transition: all .2s;
+  -webkit-transition: all .2s;
+  -moz-transition: all .2s;
+  opacity: 0;
+  stroke: #D91C1C;
+  stroke-width: 2;
+  cursor: pointer;
+  fill: #D91C1C;
+
+}
+.circle.selected:hover {
+  opacity: 0.9;
+  fill: #F0DC00;
+  stroke: #111;
+}
+.circle.selected { opacity: 0.6; visibility: visible; }
+
+#timeline { text-align: center }
+
+.filtros div { margin-bottom: 5px; }
+
+.filtros button {
+  display: block;
+  width: 100%;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 2px;
+  font-size: 12pt;
+  font-family: "vag_rounded_black_ssibold", Arial, sans-serif;
+  padding: 10px 5px;
+  color: #666;
+}
+
+.filtros h5:first-child {
+  margin-top: 0px;
+}
+
+.filtros button:hover {
+  color: #333;
+}
+
+.filtros button.active {
+  color: black;
+  background: white;
+  border: 2px solid #080;
+}
+
+.hhlogo {
+  margin-top: 2px;
+}
+
+.autoplay-wrapper {
+  position: absolute;
+  top: 0px;
+  right: 15px;
+}
+
+#autoplay {
+  font-size: 10pt;
+  padding: 6px 12px;
+}
+
+/* Estilos para D3 */ 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #777;
+  shape-rendering: crispEdges;
+}
+
+.resize rect {
+  visibility: visible !important;
+  fill: #777 !important;
+  stroke: #444 !important;
+  opacity: .7 !important;
+}
+
+body {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.footer-wrapper {
+  padding-bottom: 100px;
+}
+
+.footer {
+  background: none !important;
+  border: none !important;
+}
+
+.fondos-flotantes {
+  position: absolute;
+  z-index: -10;
+}
+
+.fondos-flotantes.abre-fondo-pie {
+  bottom: 0px;
+  width: 1210px;
+  margin-left: -605px;
+  left: 50%;
+}
+
+.fondos-flotantes.abre-fondo-izq {
+  bottom: 250px;
+  left: 0;
+}
+
+.fondos-flotantes.abre-fondo-der {
+  bottom: 250px;
+  right: 0;
+}
+
+.accordion-content {
+  display: none;
+}
+
+#form_filtros .chosen_container {
+  display: block;
+}
+
+.abre_filtros {
+  padding: 0 15px 15px 15px;
+  background: #eee;  
+}
+
+.abre_filtros label {
+  font-size: 9pt;
+  line-height: 1;
+}
+
+.abre_rowfiltros {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.abre_rowfiltros .filtro label {
+  margin-top: 15px;
+  display: block;
+  font-family: "Asap";
+  color: #454545;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.abre_rowfiltros .filtro {
+  display: table-cell;
+  padding-right: 10px;
+}
+
+.abre_rowfiltros .fake_select {
+  display: none;
+}
+
+.n3.contents {
+  margin-top: 15px;
+}
+
+.chosen-container-single .chosen-single {
+  border-radius: 0;
+  background: white;
+  padding: 0 10px;
+  font-size: 12pt;
+  line-height: 50px;
+  height: auto !important;
+}
+
+.chosen-container-single .chosen-single div {
+  position: absolute;
+  top: 13px;
+  right: 7px;
+  display: block;
+  width: 13px;
+  height: 15px;
+}
+
+.proyectos-mapa {
+  background: #f0f0f0;
+}
+
+.proyectos-mapa .proyectos {
+  width: 30%;
+  float: left;
+}
+
+.proyectos-mapa .mapa {
+  width: 70%;
+  float: left
+}
+
+.proyectos-loader {
+  color: #999;
+}
+
+#proyectos_wrapper a {
+  display: block;
+  font-size: 11pt;
+  height: auto;
+  line-height: 1em;
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+  transition: background .5s;
+  font-family: Asap;
+}
+
+#proyectos_wrapper p {
+  font-size: 10pt;
+  color: #454545;
+  padding: 10px 15px;
+  margin: 0;
+}
+
+#proyectos_wrapper a:hover {
+  background: white;
+  transition: background .5s;
+}
+
+#proyectos_wrapper .container-proyectos {
+  max-height: 460px;
+  overflow-y: auto;
+}
+
+#abre-mapa {
+  margin: 0 10px 15px 10px;
+}
+
+.municipios-footer {
+  background: #EFEFEF;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+.municipios-footer h3 {
+  color: #aaa;
+  font-size: 14pt;
+  margin-top: 0;
+  padding-left: 10px;
+}
+
+.municipios-logos {
+  display: table;
+  width: 100%;
+}
+
+.municipios-logos .logo {
+  display: table-cell;
+  border-left: 1px solid #ddd;
+  text-align: center;
+  padding: 5px;
+
+}
+
+.municipios-logos .logo img {
+  max-width: 100%;
+}
+
+.municipios-logos .logo.first {
+  border-left: 0;
+  text-align: left;
+  padding-left: 0;
+}
+
+.municipios-logos .logo.last {
+  text-align: right;
+  padding-right: 0;
+}

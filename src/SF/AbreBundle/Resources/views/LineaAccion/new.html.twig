@@ -1,0 +1,18 @@
+{% extends 'SFAbreBundle:Admin:base.html.twig' %}
+
+{% block breadcrumbs %}
+  <li><a href="#">Plan Abre</a> <span class="divider">/</span></li>
+  <li><a href="{{ path('lineaaccion') }}">LineaAccion</a> <span class="divider">/</span></li>
+  <li class="active">Editar</li>
+{% endblock %}
+
+{% block contenido %}
+<form action="{{ path('lineaaccion_create') }}" method="post" {{ form_enctype(form) }} class="form-stacked">
+    <fieldset>
+      {{ form_widget(form) }}
+    </fieldset>
+    <div class="actions">
+      <input type="submit" class="btn primary" value="Guardar" />
+    </div>
+</form>
+{% endblock %}

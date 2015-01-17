@@ -1,0 +1,207 @@
+{% extends 'SFAbreBundle:Admin:base.html.twig' %}
+
+{% block breadcrumbs %}
+  <li><a href="#">Plan Abre</a> <span class="divider">/</span></li>
+  <li class="active">Proyecto</li>
+{% endblock %}
+
+{% block contenido %}
+
+  <div class="accionesListado">
+    {#<a href="{{ path('proyecto_importar') }}" class="btn btn-default">Importar</a>#}
+    {% if success is defined %}
+    <div class="alert-message success fade in pull-right" data-alert="alert">
+      <a class="close" href="#">×</a>
+      <p>Mensaje de éxito</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <h5>Filtros</h5>
+
+  <form action="{{ path("proyecto") }}" id="form_filtros_admin">
+    
+    <div class="container-fluid">
+      <div class="col-md-12">
+        <label>Buscar por nombre</label>
+        <input type="text" placeholder="Nombre del proyecto" name="nombre" value="{{ app.request.get('nombre') }}">
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="col-md-4">
+        <label>Localidad</label>
+        <select id="localidad" name="localidad">
+          <option value="0">Todas</option>
+          {% for localidad in localidades %}
+            <option value="{{ localidad.id }}" {% if localidad.id == app.request.get("localidad") %}selected{% endif %}>{{ localidad.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label>Barrio</label>
+        <select id="barrio" name="barrio">
+          <option value="0">Todos</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label>Distrito</label>
+        <select id="distrito" name="distrito">
+          <option value="0">Todos</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="col-md-4">
+        <label>Eje de trabajo</label>
+        <select id="eje_trabajo" name="eje_trabajo">
+          <option value="0">Todos</option>
+          {% for eje in ejes_trabajo %}
+            <option value="{{ eje.id }}">{{ eje.nombre }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label>Linea de acción</label>
+        <select name="linea_accion" id="linea_accion"></select>
+      </div>
+      <div class="col-md-4">
+        <label>Intervención</label>
+        <select name="intervencion" id="intervencion"></select>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="col-md-12">
+        <button class="btn btn-primary" type="submit">Buscar</button>
+      </div>
+    </div>
+
+  </form>
+
+  <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Orden</th>
+                <th>Observacion</th>
+                <th>Localidad</th>
+                <th>Intervencion</th>
+                <th>GEO</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr {% if not entity.leido %}class="no-leido"{% endif %} >
+                <td>{{ entity.id }}</td>
+                <td>{{ entity.nombre }}</td>
+                <td>{{ entity.orden }}</td>
+                <td>{{ entity.observacion }}</td>
+                <td>{{ entity.localidad.nombre }}</td>
+                <td>{{ entity.intervencion.nombre }}</td>
+                <td>
+                {% if entity.dato_geografico %}
+                  {{ entity.dato_geografico.descripcion }}
+                {% endif %}
+                </td>
+                <td>{% if entity.fecha %}{{ entity.fecha|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                              <a href="{{ path('proyecto_edit', { 'id': entity.id }) }}" class="btn btn-default"><i class="fa fa-pencil"></i> Editar</a>
+              
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  
+    {% if hasPagination is defined %}
+  <div class="pagination">
+    <ul>
+      <li class="prev disabled"><a href="#">&larr; Anterior</a></li>
+      <li class="active"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li class="next"><a href="#">Siguiente &rarr;</a></li>
+    </ul>
+  </div>
+  {% endif %}
+
+  <script type="text/javascript">
+  $(document).on("ready", function() {
+
+    $("#localidad").on("change", function(e) {
+
+      var idLocalidad = $(this).val();
+
+      $.ajax({
+        url: "/barrios/" + idLocalidad
+      }).done(function(response) {
+        responseToOptions("barrio", response);
+        // Después de buscar los barrios, buscar los distritos
+        $.ajax({
+          url: "/distritos/" + idLocalidad
+        }).done(function(distritosResponse) {
+          responseToOptions("distrito", distritosResponse);
+          $("#form_filtros").submit();
+        });
+      });
+
+    });
+
+    function cargarLineaAccion() {
+      $.ajax({
+        url: "/lineas/poreje/" + $("#eje_trabajo").val()
+      }).done(function(response) {
+        responseToOptions("linea_accion", response);
+      });
+    }
+
+    function cargarIntervenciones() {
+      $.ajax({
+        url: "/intervencion/porlinea/" + $("#linea_accion").val()
+      }).done(function(response) {
+        responseToOptions("intervencion", response);
+      });
+    }
+
+    $("#eje_trabajo").on("change", function() {
+      cargarLineaAccion(true);
+    });
+
+    $("#linea_accion").on("change", function() {
+      cargarIntervenciones(true);
+    });
+
+    function responseToOptions(nombre, datos) {
+
+      var selectDestino = $("#" + nombre);
+
+      selectDestino.html('');
+
+      newOption = $("<option>");
+      newOption.attr("value", 0);
+      newOption.html("Todos");
+      selectDestino.append(newOption);
+
+      for (idx in datos) {
+        newOption = $("<option>");
+        newOption.attr("value", datos[idx].id);
+        newOption.html(datos[idx].nombre);
+        selectDestino.append(newOption);
+      }
+
+      selectDestino.removeAttr("disabled");
+
+    }
+
+  }); // document ready
+  </script>
+  
+{% endblock %}
+

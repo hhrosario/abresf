@@ -1,0 +1,23 @@
+{% extends '[[[bundleName]]]:Admin:base.html.twig' %}
+
+{% block breadcrumbs %}
+  <li><a href="#">[[[appName]]]</a> <span class="divider">/</span></li>
+  <li><a href="{{ path('[[[entityName]]]') }}">[[[entityNameCaps]]]</a> <span class="divider">/</span></li>
+  <li class="active">Editar</li>
+{% endblock %}
+
+{% block contenido %}
+
+[[[recordData]]]
+
+<form action="{{ path('[[[entityName]]]_edit', { 'id': entity.id }) }}" class="form-stacked">
+  <div class="actions">
+    <input type="submit" class="btn primary" value="Editar" />
+  </div>
+</form>
+
+<form action="{{ path('[[[entityName]]]_delete', { 'id': entity.id }) }}" method="post">
+    {{ form_widget(delete_form) }}
+    <button type="submit" class="btn danger">Eliminar</button>
+</form>
+{% endblock %}

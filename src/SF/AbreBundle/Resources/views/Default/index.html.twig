@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="shortcut icon" href="../../assets/ico/favicon.ico"> -->
+
+    <title>Santa Fe - Plan Abre</title>
+
+	{% stylesheets 'bundles/sfabre/css/*.css' filter='cssrewrite' %}
+	    <link rel="stylesheet" href="{{ asset_url }}" />
+	{% endstylesheets %}
+
+	<!-- Tipografías e íconos -->
+    <link href='http://fonts.googleapis.com/css?family=Asap:400,700' rel='stylesheet' type='text/css'>    
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fc917073034e06f"></script>
+
+  <!-- Plan Abre - Mapa interactivo -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+  <script src="http://d3js.org/d3.v3.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/1.0.0-rc.3/lodash.underscore.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+
+  {% javascripts 'bundles/sfabre/js/*.js' %}
+      <script src="{{ asset_url }}"></script>
+  {% endjavascripts %}
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+      .abre-sidebar-title {
+        background: #454545;
+        color: #D5D6DA;
+        line-height: 30px;
+        padding: 0 20px;
+        font-weight: bold;
+        font-family: 'Asap';
+        text-transform: uppercase;
+        height: 30px;
+      }
+      .abre-sidebar-ciudades {
+        background: #C6C7C9;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .abre-sidebar-ciudades a {
+        font-weight: bold;
+        color: white;
+        display: block;
+        line-height: 40px;
+        padding: 0 10px;
+        color: white;
+        font-family: 'Asap';
+        text-transform: uppercase;
+        background: #817373;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        font-size: 11pt;
+        transition: background ease .5s;
+      }
+      .abre-sidebar-ciudades a.link-ciudad.active, .abre-sidebar-ciudades a.link-ciudad:hover {
+        background: #E30713;
+        transition: background ease .5s;
+      }
+      .abre-sidebar-ciudades a:last-child {
+        margin-bottom: 0;
+      }
+    </style>
+
+  </head>
+
+  <body role="document" class="n4">
+
+  <img class="fondos-flotantes abre-fondo-pie" src="bundles/sfabre/images/abstracto-pie.png">
+  <img class="fondos-flotantes abre-fondo-izq" src="bundles/sfabre/images/abstracto-left.png">
+  <img class="fondos-flotantes abre-fondo-der" src="bundles/sfabre/images/abstracto-right.png">
+
+ {% include 'SFAbreBundle:Default:header.html.twig' %}
+ 
+ <div class="box-6 ui-bg-9">
+    <div class="container">
+      <h2 class="ui-h2-3"><a href="#">Plan Abre</a></h2>
+    </div>
+ </div>
+ <div class="container" role="main">
+ <!-- Hot Links   -->
+ 
+ <div class="box-0 cta-headers  internal-cta">
+   <div class="row">
+   <div class="pull-left sf-breadcrumb">
+     <p>Mapa interactivo</p>
+   </div>
+     <div class="pull-right santafe-avanza">
+       <a href="http://www.santafe.gov.ar/index.php/web/content/view/full/193144"><img src="bundles/sfabre/images/logo-abre-top.png"></a>
+       <a href="#"><img src="bundles/sfabre/images/santafe-avanza.png" alt="Santa Fe Avanza"></a>
+     </div>
+   
+    </div>
+ </div>
+
+ <div class="clearfix"></div>
+
+<div id="abre-mapa">
+  <div class="abre_filtros">
+    <form action="{{ path('obtener_proyectos') }}" method="post" id="form_filtros">
+    <div id="abre_filtros_localidad" class="abre_rowfiltros">
+        
+        <div class="filtro">
+          <label>Localidad</label>
+          <select name="localidad" id="localidad">
+            <option value="0">Todas</option>
+            {% for localidad in localidades %}
+              <option value="{{ localidad.id }}">{{ localidad.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="filtro">
+          <label>Barrio</label>
+          <div id="barrio_wrapper">
+            <select name="barrio" id="barrio">
+              <option value="0">Todos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="filtro">
+          <label>Distrito</label>
+          <div id="distrito_wrapper">
+            <select name="distrito" id="distrito">
+              <option value="0">Todos</option>
+            </select>
+          </div>
+        </div>
+
+     </div>
+     <div class="clearfix"></div>
+     <div id="abre_filtros_clasificacion" class="abre_rowfiltros">
+        
+        <div class="filtro">
+          <label>Eje de Trabajo</label>
+          <select name="eje_trabajo" data-placeholder="Seleccionar..." id="eje_trabajo">
+            <option value="0">Todos</option>
+            {% for eje in ejes %}
+              <option value="{{ eje.id }}">{{ eje.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <div class="filtro">
+          <label>Línea de Acción</label>
+          <div id="linea_accion_wrapper">
+            <select name="linea_accion" id="linea_accion" data-placeholder="Seleccionar...">
+              <option value="0">Todos</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="filtro">
+          <label>Intervención</label>
+          <div id="intervencion_wrapper">
+            <select name="intervencion" disabled data-placeholder="Seleccionar..." id="intervencion">
+              <option value="0">Todas</option>
+            </select>
+          </div>
+        </div>
+
+     </div>
+     <div class="clearfix"></div>
+     
+     </form>
+
+   </div>
+   <div class="clearfix"></div>
+    
+   <!-- Mapa y proyectos  -->
+   <div class="proyectos-mapa">
+     <div class="proyectos">
+      <div id="proyectos_wrapper">
+        <p>Seleccioná algunos criterios arriba para ver los proyectos!</p>
+      </div>   
+     </div>
+     <div class="mapa">
+
+        <div id="map-wrapper">
+          <div id='map' data-source="mapa.json"></div>
+          <div id="overlay">
+            <img src="bundles/sfabre/images/close.png" id="cerrar-sidebar" width="20">
+            <div id="overlay-padder">
+            </div>
+          </div>
+        </div>
+
+     </div>
+     <div class="clearfix"></div>
+   </div>
+</div>
+ <div class="clearfix"></div>
+
+<!-- Plan Abre News -->
+ 
+   <div class="news-slider">
+    <div class="slider-item">
+      <p class="label"><a href="#">EJES DE GESTIÓN</a></p>
+      <a href="https://www.santafe.gov.ar/noticias/noticia/211188/" class="hover-item">
+      <img src="https://www.santafe.gov.ar/noticias/media/cache/thumb_noticia/recursos/fotos/2015/01/2015-01-12NID_211188O_2.jpeg" alt="" class="flex-img">
+      <div class="info">
+        <h2 class="ui-h2-2">Se vienen nuevas obras en el Fonavi de Grandoli y Gutiérrez</h2>
+        <p>Mañana a las 18 se firma el convenio. Plan Abre en Rosario, con una inversión global de 28 millones de pesos para la segunda etapa de mejoras para este barrio ubicado en la zona sur. </p>
+        <p class="more">
+        Leer más >
+        </p>
+      </div>
+      </a>
+      
+    </div>
+    <div class="slider-item">
+      <p class="label"><a href="#">EJES DE GESTIÓN</a></p>
+      <a href="https://www.santafe.gov.ar/noticias/noticia/211171/" class="hover-item">
+      <img src="https://www.santafe.gov.ar/noticias/media/cache/thumb_noticia/recursos/fotos/2015/01/2015-01-09NID_211171O_1.jpeg" alt="" class="flex-img">
+      <div class="info">
+        <h2 class="ui-h2-2">“Estamos aportando dinero a 200 clubes de Santa Fe, en Rosario, Villa Gobernador Gálvez, Santo Tomé”, dijo Bonfatti</h2>
+        <p> En el marco del Plan Abre, el gobernador participó de la inauguración de la nueva tribuna de...</p>
+        <p class="more">
+        Leer más >
+        </p>
+      </div>
+      </a>
+      
+    </div>
+    <div class="slider-item">
+      <p class="label"><a href="#">EJES DE GESTIÓN</a></p>
+      <a href="https://www.santafe.gov.ar/noticias/noticia/211202/" class="hover-item">
+        <img src="https://www.santafe.gov.ar/noticias/media/cache/thumb_noticia/recursos/fotos/2015/01/2015-01-12NID_211202O_2.jpeg" alt="" class="flex-img">
+      <div class="info">
+        <h2 class="ui-h2-2">
+El plan provincial para sumar suelo privado a Mi Tierra, Mi Casa recibió el apoyo de empresas inmobiliarias de Rosario</h2>
+        <p> La cámara que las agrupa se ofreció a actuar como nexo.</p>
+        <p class="more">
+        Leer más >
+        </p>
+      </div>
+      </a>
+    </div>
+   </div>
+
+   {#
+   <div class="abre-separator" style="height: 20px;"></div>
+
+   <div class="news-slider">
+    <div class="slider-item">
+      <p class="label"><a href="#">Educación</a></p>
+      <a href="#" class="hover-item">
+      <img src="bundles/sfabre/images/placholder1.png" alt="" class="flex-img">
+      <div class="info">
+        <h2 class="ui-h2-2">Se presenta oficialmente la edición 2014 de la Copa Grand Prix</h2>
+        <p>Este lunes en la ciudad de Santa Fe en la Secretaría de Deportes de la provincia.</p>
+        <p class="more">
+        Leer más >
+        </p>
+      </div>
+      </a>
+      
+    </div>
+    <div class="slider-item">
+      <p class="label"><a href="#">Educación</a></p>
+      <a href="#" class="hover-item no-image">
+      <div class="info">
+        <h2 class="ui-h2-2">Se presenta oficialmente la edición 2014 de la Copa Grand Prix</h2>
+        <p>Este lunes en la ciudad de Santa Fe en la Secretaría de Deportes de la provincia.</p>
+        <p class="more">
+        Leer más >
+        </p>
+      </div>
+      </a>
+      
+    </div>
+    <div class="slider-item">
+      AGENDA
+    </div>
+   </div>
+   #}
+
+   <div class="abre-separator" style="height: 20px;"></div>
+
+{#
+ <!--  Info Grid 1 -->
+ <div class="box-3 ui-bg-2">
+ <h3 class="ui-h2-1 pull-left">Información Útil </h3>
+  <p class="pull-right"><a href="#" class="more-news">Ver m&aacute;s ></a></p>
+  
+   <div class="news-slider">
+     <div class="news-item">
+       <i class="icon-flechad"></i>
+       <h4><a href="#">Cronograma de Pagos</a></h4>
+       <p class="ui-p-2">El Ministerio de Economía dio a conocer el cronograma de pago de sueldos para los agentes provinciales, correspondientes al mes de noviembre.</p>
+       <p class="more"><a href="#" class="ui-a-1">Econom&iacute;a</a></p>
+     </div>
+     <div class="news-item">
+       <i class="icon-flechad"></i>
+       <h4><a href="#">Qué presentar para el nuevo DNI</a></h4>
+       <p class="ui-p-2">El Ministerio de Economía dio a conocer el cronograma de pago de sueldos para los agentes provinciales, correspondientes al mes de noviembre.</p>
+       <p class="more"><a href="#" class="ui-a-1">Servicios públicos</a></p>
+     </div>
+     <div class="news-item">
+       <i class="icon-flechad"></i>
+       <h4><a href="#">Info útil</a></h4>
+       <p class="ui-p-2">El Ministerio de Economía dio a conocer el cronograma de pago de sueldos para los agentes provinciales, correspondientes al mes de noviembre.</p>
+       <p class="more"><a href="#" class="ui-a-1">Info útil</a></p>
+     </div>
+   </div>
+ </div>
+ #}
+ 
+ <!--  Banners  -->
+
+ <div class="box-9">
+ 
+   
+ </div>
+
+<!-- Footer Links -->
+
+ <div class="box-8 ui-bg-10">
+ 
+   <div class="news-slider">
+     <div class="news-item">
+       <h4 class="ui-h4-2">TRÁMITES / <span>Cultura</span> <i class="caret"></i></h4> 
+
+        <h5 class="ui-h5-1">
+          Subsidios
+        </h5>
+        <ul class="ui-list-2">
+          <li><a href="#">Solicitud ante el Ministerio de Innovación y Cultura</a></li>
+        </ul>
+
+     </div>
+     <div class="news-item">
+       <h4 class="ui-h4-2">Enlaces <i class="caret"></i></h4> 
+        <ul class="ui-list-3">
+          <li><p>¿Qué es el Plan ABRE? <a href="http://www.santafe.gov.ar/index.php/web/content/view/full/193144">Ver más </a></p></li>
+          <li><p>¿Dónde estamos trabajando? <a href="http://www.santafe.gov.ar/index.php/web/content/view/full/193150/(subtema)/193144">Ver más </a></p></li>
+          <li><p>Comunidad de prácticas <a href="https://campus.santafe.gov.ar/">https://campus.santafe.gov.ar/</a></p></li>
+        </ul>
+
+     </div>
+     <div class="news-item">
+        <ul class="ui-list-3" style="margin-top: 57px">
+          <li><p>Infraestructura y Hábitat <a href="http://www.santafe.gov.ar/index.php/web/content/view/full/193146/(subtema)/193144">Ver más </a></p></li>
+          <li><p>Convivencia y Participación <a href="http://www.santafe.gov.ar/index.php/web/content/view/full/193145/(subtema)/193144">Ver más </a></p></li>
+        </ul>
+     </div>
+   </div>
+ </div>
+
+ <div class="municipios-footer">
+  <h3>MUNICIPIOS</h3>
+  <div class="municipios-logos">
+    <div class="logo first"><img src="/bundles/sfabre/images/rosario-logo.jpg"></div>
+    <div class="logo"><img src="/bundles/sfabre/images/santafe-logo.jpg"></div>
+    <div class="logo"><img src="/bundles/sfabre/images/vgg-logo.jpg"></div>
+    <div class="logo"><img src="/bundles/sfabre/images/santotome-logo.jpg"></div>
+    <div class="logo last"><img src="/bundles/sfabre/images/perez-logo.jpg"></div>
+  </div>
+ </div>
+
+ </div>
+
+
+  {% include 'SFAbreBundle:Default:footer.html.twig' %}
+
+    <script>
+        if (!window.jQuery) {
+            document.write('<script src="js/jquery.min.js"><\/script>')
+        }
+        </script>
+    <script>
+    $(document).ready(function() {
+
+    $('.search-link').on('click', function(ev){
+      ev.preventDefault();
+      $(this).hide();
+      $('.search-form').show();
+      $('#q').focus()
+    });
+    $('#q').on('blur', function(){
+      $('.search-link').show();
+      $('.search-form').hide();
+    })
+  
+  
+  $('.news-slider-2').owlCarousel({
+    navigation : false,
+    items:2,
+    itemsDesktop : [1200,2], //5 items between 1000px and 901px
+    itemsDesktopSmall : [1039,2], // betweem 900px and 601px
+    itemsTablet: [768,1],
+    itemsMobile: [510,1],
+  });
+
+  $('.news-slider:not(.news-slider-2)').owlCarousel({
+    navigation : false,
+    items:3,
+    itemsDesktop : [1200,3], //5 items between 1000px and 901px
+    itemsDesktopSmall : [1039,2], // betweem 900px and 601px
+    itemsTablet: [768,2], 
+   itemsMobile: [510,1],
+  });
+
+ 
+});</script>
+
+  <!-- Scripts Plan Abre interactivo -->
+  <script type="text/html" id="sideTemplate">
+
+      <div class="eje"><%- clasificacion %></div>
+      <h2><%- titulo_publico %></h2>
+      <% if (!!imagen) { %>
+      <div class="container-imagen">
+        <img src='<%- imagen %>'>
+      </div>
+      <% } %>
+      <div id="overlay-compartir"></div>
+      <h4><%- bajada_publica %></h4>
+      <p><%- cuerpo_publico %></p>
+      <div class="datos-obra">
+
+        <table cellspacing="0">
+          <% if (!!monto_publico) { %>
+          <tr>
+            <td><label>Monto:</label></td>
+            <td><%- monto_publico %></td>
+          </tr>
+          <% } %>
+        </table>
+      </div>
+
+  </script>
+  
+
+    <div id="addthis-hidden" class="hidden">
+      <div class="addthis_native_toolbox"></div>
+    </div>
+
+  </body>
+</html>

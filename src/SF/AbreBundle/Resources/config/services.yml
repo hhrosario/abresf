@@ -1,0 +1,9 @@
+parameters:
+    sfabre.webservicegs.class: SF\AbreBundle\Controller\WebServiceGSController
+    sfabre.fakeservicegs.class: SF\AbreBundle\Controller\FakeServiceGSController
+
+services:
+    sfabre.wsgs:
+        class: "%sfabre.webservicegs.class%"
+    sfabre.fsgs:
+        class: "%sfabre.fakeservicegs.class%"
