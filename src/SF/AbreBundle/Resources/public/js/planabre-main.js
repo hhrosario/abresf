@@ -311,7 +311,7 @@ window.onload = function() {
           for (idx in datos) {
             newLink = $("<a>");
             newLink.attr("href", "/proyecto/" + datos[idx].id);
-            newLink.html(datos[idx].nombre);
+            newLink.html(datos[idx].titulo_publico);
             newLink.on("click", cargarProyecto);
             containerProyectos.append(newLink);
           }
