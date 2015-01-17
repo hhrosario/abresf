@@ -5,6 +5,14 @@ Plan Abre
 
 ## Instalación
 
+### 0. Chequear prerrequisitos
+
+Requiere lo que requiere Symfony 2.3, para probar si tenemos todo podemos hacer:
+
+    php app/check.php
+    
+Para más info ver: http://symfony.com/doc/2.3/reference/requirements.html
+
 ### 1. Clonar este repo
 
 Simplemente mediante:
