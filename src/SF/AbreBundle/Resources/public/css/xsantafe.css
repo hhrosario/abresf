@@ -2939,3 +2939,21 @@ margin: 0;
 	height: 87px;
 
 }
+.main-deprecated .modulo.mod-enlaces .content {
+padding: 10px 5px 10px 22px;
+}
+.main-deprecated .modulo.mod-enlaces {
+margin-bottom: 20px;
+min-height: 120px
+}
+.mod-enlaces.modulo .content ul {
+margin: 7px 0;
+}
+.main-deprecated .modulo.mod-enlaces li {
+margin: 3px 0;
+padding-right: 20px;
+width: 33.33%;
+margin-left: -2px;
+float: left;
+}
+
