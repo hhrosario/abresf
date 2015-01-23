@@ -501,6 +501,6 @@ body {
 }
 
 .municipios-logos .logo.last {
-  text-align: right;
+  /*text-align: right;*/
   padding-right: 0;
 }

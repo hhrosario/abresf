@@ -2896,3 +2896,46 @@ margin: 0;
 	font-size: 14px;
 	line-height: 95%;
 }
+.muni-1{
+	width: 154px;
+	height: 87px;
+}
+.muni-1:hover{
+	background-position: 0 -87px;
+}
+.muni-2{
+	width: 106px;
+	background-position: -205px 0;
+}
+.muni-2:hover{
+	background-position: -205px -87px;
+}
+.muni-3{
+	width: 188px;
+	background-position: -355px 0;
+}
+.muni-3:hover{
+	background-position: -355px -87px;	
+}
+.muni-4{
+	width: 192px;
+	background-position: -590px 0;
+	
+}
+.muni-4:hover{
+	background-position: -590px -87px;
+}
+.muni-5{
+	width: 110px;
+	background-position: -831px 0;
+}
+.muni-5:hover{
+	background-position: -831px -87px;	
+}
+.link-muni{
+	background-image: url('../images/municipios.png');
+	display: inline-block;
+	text-indent: -9999px;
+	height: 87px;
+
+}
