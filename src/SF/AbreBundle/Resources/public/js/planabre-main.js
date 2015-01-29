@@ -5,6 +5,10 @@ var DEBUG_LEVEL = false;
 d3map.brush = null;
 d3map.cantidadPuntos = 0;
 d3map.layers = {};
+
+var path = window.location.origin+ window.location.pathname;
+
+
 d3map.log = function(msg, debugLevel) {
   var debugLevelValue = {
     "info": 1,
@@ -111,8 +115,8 @@ function main() {
           .attr('patternUnits', 'userSpaceOnUse')
           .attr('width', 289)
           .attr('height', 180)
-         .append("image")
-          .attr("xlink:href", "imgs/planabre/abrebg.png")
+          .append("image")
+          .attr("xlink:href", "bundles/sfabre/images/abrebg.png")
           .attr('width', 289)
           .attr('height', 180);
 
@@ -168,9 +172,9 @@ var jsonData = {};
 window.onload = function() {
 
   var SIGFiles = [
-    '/bundles/sfabre/xml/zonas-de-interes.xml',
-    '/bundles/sfabre/xml/mi-tierra-mi-casa.xml',
-    '/bundles/sfabre/xml/mejoramiento-barrial.xml'
+    'bundles/sfabre/xml/zonas-de-interes.xml',
+    'bundles/sfabre/xml/mi-tierra-mi-casa.xml',
+    'bundles/sfabre/xml/mejoramiento-barrial.xml'
   ];
 
   var currentFile = 0;
@@ -329,7 +333,7 @@ window.onload = function() {
 
       function cargarLineaAccion(submitForm) {
         $.ajax({
-          url: "/lineas/poreje/" + $("#eje_trabajo").val()
+          url: path + "lineas/poreje/" + $("#eje_trabajo").val()
         }).done(function(response) {
           responseToOptions("linea_accion", response);
           if (!!submitForm) {
@@ -341,7 +345,7 @@ window.onload = function() {
 
       function cargarIntervenciones(submitForm) {
         $.ajax({
-          url: "/intervencion/porlinea/" + $("#linea_accion").val()
+          url: path + "intervencion/porlinea/" + $("#linea_accion").val()
         }).done(function(response) {
           responseToOptions("intervencion", response);
           if (!!submitForm) {
@@ -373,7 +377,7 @@ window.onload = function() {
           }
 
           $.ajax({
-            url: "/barrios/" + idLocalidad
+            url: path+ "barrios/" + idLocalidad
           }).done(function(response) {
 
             responseToOptions("barrio", response);
@@ -382,7 +386,7 @@ window.onload = function() {
 
             // Después de buscar los barrios, buscar los distritos
             $.ajax({
-              url: "/distritos/" + idLocalidad
+              url: path + "distritos/" + idLocalidad
             }).done(function(distritosResponse) {
               responseToOptions("distrito", distritosResponse);
               $("#form_filtros").submit();
@@ -455,7 +459,7 @@ window.onload = function() {
 
       if (location.hash) {
         var idProyecto = location.hash.split("-")[1];
-        cargarProyecto(null, "/proyecto/" + idProyecto)
+        cargarProyecto(null, path+"proyecto/" + idProyecto)
       }
       
       main();
