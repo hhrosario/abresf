@@ -7,7 +7,9 @@ d3map.cantidadPuntos = 0;
 d3map.layers = {};
 
 var path = window.location.origin+ window.location.pathname;
-
+if( path.substr(-1) == '/'){
+  path = path.substr(0,path.length-1)
+}
 
 d3map.log = function(msg, debugLevel) {
   var debugLevelValue = {
@@ -249,11 +251,11 @@ window.onload = function() {
         }
         id = url.split("/")[2];
 
-        location.href = "/#proyecto-" + id;
+        location.href = "#proyecto-" + id;
 
         $.ajax(
         {
-            url: url,
+            url: path + url,
             type: "GET",
             success:function(data, textStatus, jqXHR)
             {
@@ -274,7 +276,7 @@ window.onload = function() {
               if (data[0]["imagen"]) {
                 imagen = data[0]["imagen"];
               } else {
-                imagen = "/bundles/sfabre/images/nophoto.png";
+                imagen = "bundles/sfabre/images/nophoto.png";
               }
 
               clasificacion = clasificacion.join(" / ");
@@ -333,7 +335,7 @@ window.onload = function() {
 
       function cargarLineaAccion(submitForm) {
         $.ajax({
-          url: path + "lineas/poreje/" + $("#eje_trabajo").val()
+          url: path + "/lineas/poreje/" + $("#eje_trabajo").val()
         }).done(function(response) {
           responseToOptions("linea_accion", response);
           if (!!submitForm) {
@@ -345,7 +347,7 @@ window.onload = function() {
 
       function cargarIntervenciones(submitForm) {
         $.ajax({
-          url: path + "intervencion/porlinea/" + $("#linea_accion").val()
+          url: path + "/intervencion/porlinea/" + $("#linea_accion").val()
         }).done(function(response) {
           responseToOptions("intervencion", response);
           if (!!submitForm) {
@@ -377,7 +379,7 @@ window.onload = function() {
           }
 
           $.ajax({
-            url: path+ "barrios/" + idLocalidad
+            url: path+ "/barrios/" + idLocalidad
           }).done(function(response) {
 
             responseToOptions("barrio", response);
@@ -386,7 +388,7 @@ window.onload = function() {
 
             // Después de buscar los barrios, buscar los distritos
             $.ajax({
-              url: path + "distritos/" + idLocalidad
+              url: path + "/distritos/" + idLocalidad
             }).done(function(distritosResponse) {
               responseToOptions("distrito", distritosResponse);
               $("#form_filtros").submit();
@@ -459,7 +461,7 @@ window.onload = function() {
 
       if (location.hash) {
         var idProyecto = location.hash.split("-")[1];
-        cargarProyecto(null, path+"proyecto/" + idProyecto)
+        cargarProyecto(null, "/proyecto/" + idProyecto)
       }
       
       main();
