@@ -27,11 +27,8 @@
   <!--script src="http://d3js.org/d3.v3.js"></script-->
   <!-- <link rel="stylesheet" href="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" /> -->
 
-  <script src="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
-
-  {% javascripts 'bundles/sfabre/js/*.js' %}
-      <script src="{{ asset_url }}"></script>
-  {% endjavascripts %}
+  <!--script src="//cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script-->
+  
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -394,7 +391,29 @@ El plan provincial para sumar suelo privado a Mi Tierra, Mi Casa recibió el apo
 
 
   {% include 'SFAbreBundle:Default:footer.html.twig' %}
+{% javascripts
 
+        'bundles/sfabre/js/d3.v3.js'
+        'bundles/sfabre/js/leaflet.js'
+        'bundles/sfabre/js/bootstrap.min.js'
+        'bundles/sfabre/js/bootstrap-datepicker.js'
+        'bundles/sfabre/js/lodash.underscore.min.js'
+        'bundles/sfabre/js/homepage.js'
+        'bundles/sfabre/js/L.Control.Zoomslider.js'
+        'bundles/sfabre/js/colorbrewer.js'
+        'bundles/sfabre/js/lightbox.min.js'
+        'bundles/sfabre/js/owl.carousel.min.js'
+        'bundles/sfabre/js/quill.min.js'
+        'bundles/sfabre/js/y_jquery.marquee.min.js'
+        'bundles/sfabre/js/togeojson.js'
+        'bundles/sfabre/js/leaflet.points-layer.js'
+        'bundles/sfabre/js/z_chosen.jquery.min.js'
+        'bundles/sfabre/js/planabre-main.js'
+        output = 'js/planabre.js'
+    %}
+
+      <script src="{{ asset_url }}"></script>
+  {% endjavascripts %}
     <script>
         if (!window.jQuery) {
             document.write('<script src="js/jquery.min.js"><\/script>')
