@@ -270,7 +270,7 @@ window.onload = function() {
               if (data[0]["imagen"]) {
                 imagen = data[0]["imagen"];
               } else {
-                imagen = "/bundles/sfabre/sinimagen.jpg";
+                imagen = "/bundles/sfabre/images/nophoto.png";
               }
 
               clasificacion = clasificacion.join(" / ");
